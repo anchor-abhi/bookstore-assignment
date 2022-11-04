@@ -5,9 +5,16 @@ const connect = require("./configs/db");
 const userController = require("./controllers/user.controller");
 const bookController = require("./controllers/book.controller");
 const PORT = process.env.port || 5000;
+const cors = require("cors");
 
 const app = express();
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/user", userController);
 app.use("/book", bookController);
