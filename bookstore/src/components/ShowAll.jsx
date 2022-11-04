@@ -14,7 +14,7 @@ export default function ShowAll({ total, setTotal }) {
   const [page, setPage] = React.useState(1);
   const navigate = useNavigate();
   React.useEffect(() => {
-    axios.get(`http://localhost:5000/book?page=${page}`).then((res) => {
+    axios.get(`/book?page=${page}`).then((res) => {
       setBooks(res.data.books);
       setTotal(res.data.total);
     });
@@ -22,8 +22,8 @@ export default function ShowAll({ total, setTotal }) {
 
   const handleDelete = (id) => {
     console.log(id);
-    axios.delete(`http://localhost:5000/book/${id}`).then((res) => {
-      axios.get(`http://localhost:5000/book?page=${page}`).then((res) => {
+    axios.delete(`/book/${id}`).then((res) => {
+      axios.get(`/book?page=${page}`).then((res) => {
         setBooks(res.data.books);
         setTotal(res.data.total);
       });
