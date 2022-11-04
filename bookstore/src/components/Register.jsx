@@ -29,7 +29,7 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/user/signup", data)
+      .post(`${process.env.REACT_APP_BASE}/user/signup`, data)
       .then((res) => {
         console.log(res.data);
         alert("Register success");

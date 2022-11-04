@@ -28,9 +28,9 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("/user/signin", data)
+      .post(`${process.env.REACT_APP_BASE}/user/signin`, data)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.token);
         dispatch(loginUser(res.data.token));
       })
       .catch((e) => {

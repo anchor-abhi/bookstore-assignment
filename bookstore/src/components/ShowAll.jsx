@@ -8,26 +8,39 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 
 export default function ShowAll({ total, setTotal }) {
+  const { token } = useSelector((state) => state.auth);
   const [books, setBooks] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const navigate = useNavigate();
   React.useEffect(() => {
-    axios.get(`/book?page=${page}`).then((res) => {
-      setBooks(res.data.books);
-      setTotal(res.data.total);
-    });
-  }, [page]);
-
-  const handleDelete = (id) => {
-    console.log(id);
-    axios.delete(`/book/${id}`).then((res) => {
-      axios.get(`/book?page=${page}`).then((res) => {
+    axios
+      .get(`${process.env.REACT_APP_BASE}/book?page=${page}`, {
+        headers: { token },
+      })
+      .then((res) => {
         setBooks(res.data.books);
         setTotal(res.data.total);
       });
-    });
+  }, [page]);
+
+  const handleDelete = (id) => {
+    axios
+      .delete(`${process.env.REACT_APP_BASE}/book/${id}`, {
+        headers: { token },
+      })
+      .then((res) => {
+        axios
+          .get(`${process.env.REACT_APP_BASE}/book?page=${page}`, {
+            headers: { token },
+          })
+          .then((res) => {
+            setBooks(res.data.books);
+            setTotal(res.data.total);
+          });
+      });
   };
 
   return (
@@ -48,7 +61,11 @@ export default function ShowAll({ total, setTotal }) {
                 key={_id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  onClick={() => navigate(`book-details/${_id}`)}
+                  component="th"
+                  scope="row"
+                >
                   {title}
                 </TableCell>
                 <TableCell

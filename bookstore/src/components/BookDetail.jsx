@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
 const BookDetail = () => {
   const { id } = useParams();
+  const { token } = useSelector((state) => state.auth);
   const [det, setDet] = useState({
     author: "",
     price: "",
@@ -13,11 +15,12 @@ const BookDetail = () => {
 
   const [disable, setDisable] = useState(true);
   useEffect(() => {
-    axios.get(`/book/${id}`).then((res) => {
-      const data = res.data;
-      console.log("data", data);
-      setDet({ ...det, ...data });
-    });
+    axios
+      .get(`${process.env.REACT_APP_BASE}/book/${id}`, { headers: { token } })
+      .then((res) => {
+        const data = res.data;
+        setDet({ ...det, ...data });
+      });
   }, []);
 
   const handleChange = (e) => {
@@ -30,14 +33,21 @@ const BookDetail = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    axios.patch(`/book/${id}`, det).then((res) => {
-      axios.get(`/book/${id}`).then((res) => {
-        const data = res.data;
-        console.log("data", data);
-        setDet({ ...det, ...data });
-        setDisable(true);
+    axios
+      .patch(`${process.env.REACT_APP_BASE}/book/${id}`, det, {
+        headers: { token },
+      })
+      .then((res) => {
+        axios
+          .get(`${process.env.REACT_APP_BASE}/book/${id}`, {
+            headers: { token },
+          })
+          .then((res) => {
+            const data = res.data;
+            setDet({ ...det, ...data });
+            setDisable(true);
+          });
       });
-    });
   };
 
   return (

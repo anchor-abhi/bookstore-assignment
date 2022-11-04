@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const AddBook = ({ setTotal }) => {
+  const { token } = useSelector((state) => state.auth);
   const [data, setData] = useState({
     title: "",
     author: "",
@@ -10,12 +12,15 @@ const AddBook = ({ setTotal }) => {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`/book`, data).then((res) => {
-      console.log(res.data);
-      axios.get(`/book`).then((res) => {
-        setTotal(res.data.total);
+    axios
+      .post(`${process.env.REACT_APP_BASE}/book`, data, { headers: { token } })
+      .then((res) => {
+        axios
+          .get(`${process.env.REACT_APP_BASE}/book`, { headers: { token } })
+          .then((res) => {
+            setTotal(res.data.total);
+          });
       });
-    });
   };
 
   const handleChange = (e) => {

@@ -6,6 +6,7 @@ const userController = require("./controllers/user.controller");
 const bookController = require("./controllers/book.controller");
 const PORT = process.env.port || 5000;
 const cors = require("cors");
+const auth = require("./mddlewares/auth.mddleware");
 
 const app = express();
 app.use(express.json());
@@ -17,8 +18,8 @@ app.use(
 );
 
 app.use("/user", userController);
-app.use("/book", bookController);
-console.log(path.join(__dirname, "./bookstore/build"));
+app.use("/book", auth, bookController);
+
 app.use(express.static(path.join(__dirname, "./bookstore/build")));
 app.get("*", function (_, res) {
   res.sendFile(
