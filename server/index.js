@@ -15,21 +15,30 @@ app.use(
     origin: "*",
   })
 );
+app.get("/", (req, res, next) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      name: "book store",
+      version: "0.1.0",
+    },
+  });
+});
 
 app.use("/user", userController);
 app.use("/book", bookController);
 
-app.use(express.static(path.join(__dirname, "../bookstore/build")));
-app.get("*", function (_, res) {
-  res.sendFile(
-    path.join(__dirname, "../frontend/build/index.html"),
-    function (err) {
-      res.status(500).send(err);
-    }
-  );
-});
+// app.use(express.static(path.join(__dirname, "../bookstore/build")));
+// app.get("*", function (_, res) {
+//   res.sendFile(
+//     path.join(__dirname, "../frontend/build/index.html"),
+//     function (err) {
+//       res.status(500).send(err);
+//     }
+//   );
+// });
 
-app.listen(PORT, async () => {
+app.listen(PORT, "0.0.0.0", async () => {
   try {
     await connect();
     console.log(`Listening at ${PORT}`);
