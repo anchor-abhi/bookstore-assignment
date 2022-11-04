@@ -13,7 +13,7 @@ const BookDetail = () => {
 
   const [disable, setDisable] = useState(true);
   useEffect(() => {
-    axios.get(`http://localhost:5000/book/${id}`).then((res) => {
+    axios.get(`/book/${id}`).then((res) => {
       const data = res.data;
       console.log("data", data);
       setDet({ ...det, ...data });
@@ -30,8 +30,8 @@ const BookDetail = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    axios.patch(`http://localhost:5000/book/${id}`, det).then((res) => {
-      axios.get(`http://localhost:5000/book/${id}`).then((res) => {
+    axios.patch(`/book/${id}`, det).then((res) => {
+      axios.get(`/book/${id}`).then((res) => {
         const data = res.data;
         console.log("data", data);
         setDet({ ...det, ...data });

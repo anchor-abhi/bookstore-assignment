@@ -28,7 +28,7 @@ export default function SignIn() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/user/signin", data)
+      .post("/user/signin", data)
       .then((res) => {
         console.log(res.data);
         dispatch(loginUser(res.data.token));

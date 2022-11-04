@@ -29,9 +29,10 @@ export default function SignUp() {
   const handleSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:5000/user/signup", data)
+      .post("/user/signup", data)
       .then((res) => {
         console.log(res.data);
+        alert("Register success");
       })
       .catch((e) => {
         console.log(e.message);

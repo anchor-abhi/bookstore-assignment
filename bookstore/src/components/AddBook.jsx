@@ -10,9 +10,9 @@ const AddBook = ({ setTotal }) => {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:5000/book`, data).then((res) => {
+    axios.post(`/book`, data).then((res) => {
       console.log(res.data);
-      axios.get(`http://localhost:5000/book`).then((res) => {
+      axios.get(`/book`).then((res) => {
         setTotal(res.data.total);
       });
     });
