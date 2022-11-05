@@ -22,6 +22,7 @@ userSchema.pre("save", function (next) {
   return next();
 });
 
+// method to hash the new password entered during the login and compare it with the hash saved in db
 userSchema.methods.checkPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };

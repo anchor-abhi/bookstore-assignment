@@ -1,3 +1,5 @@
+//middleware function to verify if the user is authenticated to perform operation
+
 const { verifyToken } = require("../utils/token");
 const User = require("../models/user.model");
 
